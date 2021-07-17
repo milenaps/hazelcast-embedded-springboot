@@ -1,0 +1,37 @@
+= hazelcast-embedded-springboot
+
+This project has been forked from the hazelcast-guides official github repo. Click https://guides.hazelcast.org/hazelcast-embedded-springboot[here] to read the guide for further details.
+
+== Build
+
+Compile the project and run tests by hitting:
+[source, shell]
+--
+./mvnw package
+--
+
+Optionally, build the docker image with:
+[source, shell]
+--
+docker build -t hazelcast-embedded .
+--
+
+== Run & Validate
+
+Prior to running this, follow creating a network so that hazelcast clients running locally with docker can communicate with the embedded cluster.
+[source, shell]
+--
+docker network create hazelcast
+--
+
+Execute the command below to execute the application using Docker:
+[source, shell]
+--
+docker run -p 5701:5701 -e JAVA_OPTS="-Dhazelcast.config=config/hazelcast-local.xml" --network hazelcast --name hazelcast-cluster hazelcast-embedded
+--
+
+In case you don't have docker installed, or prefer testing this app locally for any reason, you can use your favorite IDE to start it or alternatively execute the following:
+[source, shell]
+--
+./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-Dhazelcast.config=config/hazelcast-local.xml"
+--
